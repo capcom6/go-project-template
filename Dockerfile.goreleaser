@@ -13,4 +13,4 @@ WORKDIR /app
 COPY $TARGETPLATFORM/$BINARY_NAME ./app
 
 # Command to run the executable
-ENTRYPOINT ["./app"]
+ENTRYPOINT ["/app/app"]
