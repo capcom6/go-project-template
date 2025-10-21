@@ -1,4 +1,4 @@
-.PHONY: all fmt lint test benchmark deps clean
+.PHONY: all fmt lint test benchmark deps clean release
 
 # Default target
 all: fmt lint test benchmark
@@ -24,4 +24,9 @@ deps:
 
 # Clean up generated files
 clean:
+	go clean -cache -testcache
 	rm -f coverage.out benchmark.txt
+
+# Execute goreleaser for snapshot
+release:
+	goreleaser release --snapshot --clean
