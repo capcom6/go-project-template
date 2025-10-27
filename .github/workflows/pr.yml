@@ -61,14 +61,8 @@ jobs:
           aws_bucket: ${{ secrets.AWS_BUCKET }}
           endpoint: ${{ secrets.AWS_ENDPOINT }}
           source_files: |
-            dist/${{ env.PROJECT_NAME }}_Windows_i386.zip
-            dist/${{ env.PROJECT_NAME }}_Linux_arm64.tar.gz
-            dist/${{ env.PROJECT_NAME }}_Darwin_arm64.tar.gz
-            dist/${{ env.PROJECT_NAME }}_Windows_x86_64.zip
-            dist/${{ env.PROJECT_NAME }}_Linux_x86_64.tar.gz
-            dist/${{ env.PROJECT_NAME }}_Windows_arm64.zip
-            dist/${{ env.PROJECT_NAME }}_Darwin_x86_64.tar.gz
-            dist/${{ env.PROJECT_NAME }}_Linux_i386.tar.gz
+            dist/${{ env.PROJECT_NAME }}_*.zip
+            dist/${{ env.PROJECT_NAME }}_*.tar.gz
           destination_dir: ${{ github.repository }}/${{ github.event.pull_request.head.sha }}
 
       - name: Push images
