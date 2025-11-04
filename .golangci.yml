@@ -256,6 +256,8 @@ linters:
         - "^gopkg.in/telebot.v4.LongPoller$"
         - "^gopkg.in/telebot.v4.ReplyMarkup$"
         - "^gopkg.in/telebot.v4.Settings$"
+        - ^firebase.google.com/go/v4/messaging.AndroidConfig$
+        - ^firebase.google.com/go/v4/messaging.Message$
         - ^github.com/aws/aws-sdk-go-v2/service/s3.+Input$
         - ^github.com/aws/aws-sdk-go-v2/service/s3/types.ObjectIdentifier$
         - ^github.com/mitchellh/mapstructure.DecoderConfig$
@@ -274,6 +276,7 @@ linters:
         - ^golang.org/x/tools/go/analysis.Analyzer$
         - ^google.golang.org/protobuf/.+Options$
         - ^gopkg.in/yaml.v3.Node$
+        - ^gorm.io/gorm/clause.+$
       # Allows empty structures in return statements.
       # Default: false
       allow-empty-returns: true
@@ -442,6 +445,7 @@ linters:
     wrapcheck:
       extra-ignore-sigs:
         - .JSON(
+        - .SendStatus(
 
   exclusions:
     generated: lax
@@ -470,6 +474,7 @@ linters:
           - dupl
           - err113
           - errcheck
+          - exhaustruct
           - funlen
           - goconst
           - gosec
