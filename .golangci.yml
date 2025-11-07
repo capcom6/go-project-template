@@ -476,6 +476,7 @@ linters:
           - errcheck
           - exhaustruct
           - funlen
+          - gocognit
           - goconst
           - gosec
           - noctx
