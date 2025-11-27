@@ -258,6 +258,7 @@ linters:
         - ^github.com/aws/aws-sdk-go-v2/service/s3/types.ObjectIdentifier$
         - ^github.com/go-telegram-bot-api/telegram-bot-api/.+Config$
         - ^github.com/go-telegram/bot.+Params$
+        - ^github.com/go-telegram/bot/models.+$
         - ^github.com/gofiber/.+Config$
         - ^github.com/mitchellh/mapstructure.DecoderConfig$
         - ^github.com/prometheus/client_golang/.+Opts$
