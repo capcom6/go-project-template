@@ -29,7 +29,7 @@ benchmark: ## Run benchmarks
 
 air: ## Run development server
 	@command -v air >/dev/null 2>&1 || { \
-      echo "Please install air: go install github.com/cosmtrek/air@latest"; \
+      echo "Please install air: go install github.com/air-verse/air@latest"; \
       exit 1; \
     }
 	@echo "Starting development server with air..."
