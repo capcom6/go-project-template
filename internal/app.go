@@ -3,6 +3,9 @@ package internal
 import (
 	"context"
 
+	"github.com/capcom6/go-project-template/internal/config"
+	"github.com/capcom6/go-project-template/internal/example"
+	"github.com/capcom6/go-project-template/internal/server"
 	"github.com/go-core-fx/logger"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
@@ -19,13 +22,13 @@ func Run() {
 		// fiberfx.Module(),
 		//
 		// APP MODULES
-		// config.Module(),
+		config.Module(),
 		// db.Module(),
-		// server.Module(),
+		server.Module(),
 		// bot.Module(),
 		//
 		// BUSINESS MODULES
-		// users.Module(),
+		example.Module(),
 		//
 		fx.Invoke(func(lc fx.Lifecycle, logger *zap.Logger) {
 			lc.Append(fx.Hook{
