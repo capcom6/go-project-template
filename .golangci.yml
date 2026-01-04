@@ -282,6 +282,7 @@ linters:
         - ^gopkg.in/telebot.v4.Settings$
         - ^gopkg.in/yaml.v3.Node$
         - ^gorm.io/gorm/clause.+$
+        - ^github.com/revrost/go-openrouter.+$
       # Allows empty structures in return statements.
       # Default: false
       allow-empty-returns: true
@@ -463,6 +464,8 @@ linters:
     rules:
       - source: "TODO"
         linters: [godot]
+      - text: 'shadow: declaration of "err" shadows declaration'
+        linters: [govet]
       - text: "should have a package comment"
         linters: [revive]
       - text: "avoid meaningless package names"
