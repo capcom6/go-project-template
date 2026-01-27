@@ -11,6 +11,14 @@ type http struct {
 	Address     string   `koanf:"address"`
 	ProxyHeader string   `koanf:"proxy_header"`
 	Proxies     []string `koanf:"proxies"`
+
+	OpenAPI openAPIConfig `koanf:"openapi"`
+}
+
+type openAPIConfig struct {
+	Enabled    bool   `koanf:"enabled"`
+	PublicHost string `koanf:"public_host"`
+	PublicPath string `koanf:"public_path"`
 }
 
 type exampleConfig struct {
@@ -29,6 +37,11 @@ func Default() Config {
 			Address:     "127.0.0.1:3000",
 			ProxyHeader: "X-Forwarded-For",
 			Proxies:     []string{},
+			OpenAPI: openAPIConfig{
+				Enabled:    true,
+				PublicHost: "",
+				PublicPath: "",
+			},
 		},
 
 		Example: exampleConfig{
