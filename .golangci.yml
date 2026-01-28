@@ -264,6 +264,7 @@ linters:
         - ^github.com/mitchellh/mapstructure.DecoderConfig$
         - ^github.com/mymmrac/telego.+Parameters$
         - ^github.com/prometheus/client_golang/.+Opts$
+        - ^github.com/revrost/go-openrouter.+$
         - ^github.com/secsy/goftp.Config$
         - ^github.com/Shopify/sarama.Config$
         - ^github.com/Shopify/sarama.ProducerMessage$
@@ -272,6 +273,7 @@ linters:
         - ^github.com/stretchr/testify/mock.Mock$
         - ^github.com/testcontainers/testcontainers-go.+Request$
         - ^github.com/testcontainers/testcontainers-go.FromDockerfile$
+        - ^github.com/ThreeDotsLabs/watermill.+(Config|Schema|Adapter)$
         - ^github.com/urfave/cli.v3.ArgumentBase$
         - ^github.com/urfave/cli.v3.Command$
         - ^github.com/urfave/cli.v3.FlagBase$
@@ -282,7 +284,6 @@ linters:
         - ^gopkg.in/telebot.v4.Settings$
         - ^gopkg.in/yaml.v3.Node$
         - ^gorm.io/gorm/clause.+$
-        - ^github.com/revrost/go-openrouter.+$
       # Allows empty structures in return statements.
       # Default: false
       allow-empty-returns: true
