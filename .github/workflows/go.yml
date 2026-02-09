@@ -11,12 +11,14 @@ on:
       - "**.go"
       - "go.mod"
       - "go.sum"
+      - ".golangci.yml"
   pull_request:
     branches: [master]
     paths:
       - "**.go"
       - "go.mod"
       - "go.sum"
+      - ".golangci.yml"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
