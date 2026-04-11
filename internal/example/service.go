@@ -65,3 +65,8 @@ func New(config Config, examples *Repository, metrics *Metrics, logger *zap.Logg
 		logger:   logger,
 	}
 }
+
+// Example returns the example value from the configuration.
+func (s *Service) Example() string {
+	return s.config.Example
+}
