@@ -1,6 +1,10 @@
 package example
 
-import "go.uber.org/zap"
+import (
+	"context"
+
+	"go.uber.org/zap"
+)
 
 // Service implements the business logic for the example module.
 //
@@ -64,6 +68,18 @@ func New(config Config, examples *Repository, metrics *Metrics, logger *zap.Logg
 		metrics:  metrics,
 		logger:   logger,
 	}
+}
+
+// Run starts the service and blocks until the context is canceled.
+// It is called automatically by fxutil.RegisterRunnable in a managed goroutine.
+func (s *Service) Run(ctx context.Context) error {
+	s.logger.Info("example service started")
+
+	<-ctx.Done()
+
+	s.logger.Info("example service stopped")
+
+	return nil
 }
 
 // Example returns the example value from the configuration.

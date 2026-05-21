@@ -1,6 +1,7 @@
 package example
 
 import (
+	"github.com/go-core-fx/fxutil"
 	"github.com/go-core-fx/logger"
 	"go.uber.org/fx"
 )
@@ -48,5 +49,9 @@ func Module() fx.Option {
 		// Provide the service as a public dependency
 		// This means it can be injected into other modules
 		fx.Provide(New),
+
+		// Register the service as a runnable
+		// This means it will be started and stopped automatically
+		fx.Invoke(fxutil.RegisterRunnable[*Service]()),
 	)
 }
