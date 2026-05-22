@@ -5,6 +5,11 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promauto"
 )
 
+const (
+	metricsNamespace = "template"
+	metricsSubsystem = "example"
+)
+
 // Metrics handles Prometheus metrics collection for the example module.
 //
 // This struct encapsulates all Prometheus metrics related to the example module.
@@ -36,7 +41,7 @@ type Metrics struct {
 // all the Prometheus metrics with their appropriate configuration.
 //
 // The metrics defined here are:
-//   - example_total: A counter that tracks the total number of examples
+//   - template_example_calls_total: A counter that tracks the total number of example calls
 //
 // Returns:
 //   - *Metrics: A pointer to the newly created Metrics instance
@@ -49,8 +54,10 @@ type Metrics struct {
 func NewMetrics() *Metrics {
 	return &Metrics{
 		totalCounter: promauto.NewCounter(prometheus.CounterOpts{
-			Name: "example_total",
-			Help: "Total number of examples",
+			Namespace: metricsNamespace,
+			Subsystem: metricsSubsystem,
+			Name:      "calls_total",
+			Help:      "Total number of example calls",
 		}),
 	}
 }
