@@ -2,6 +2,7 @@ package server
 
 import (
 	"github.com/capcom6/go-project-template/internal/server/docs"
+	"github.com/capcom6/go-project-template/internal/server/handlers/agent"
 	"github.com/capcom6/go-project-template/internal/server/handlers/example"
 	"github.com/go-core-fx/fiberfx"
 	"github.com/go-core-fx/fiberfx/handler"
@@ -35,6 +36,7 @@ func Module() fx.Option {
 
 		fx.Provide(
 			fx.Annotate(example.New, fx.ResultTags(`group:"handlers"`)),
+			fx.Annotate(agent.New, fx.ResultTags(`group:"handlers"`)),
 			fx.Private,
 		),
 

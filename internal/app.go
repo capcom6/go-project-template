@@ -3,6 +3,7 @@ package internal
 import (
 	"context"
 
+	"github.com/capcom6/go-project-template/internal/agent"
 	"github.com/capcom6/go-project-template/internal/bot"
 	"github.com/capcom6/go-project-template/internal/config"
 	"github.com/capcom6/go-project-template/internal/db"
@@ -13,6 +14,7 @@ import (
 	"github.com/go-core-fx/goosefx"
 	"github.com/go-core-fx/healthfx"
 	"github.com/go-core-fx/logger"
+	"github.com/go-core-fx/openrouterfx"
 	"github.com/go-core-fx/sqlfx"
 	"github.com/go-core-fx/telegofx"
 	"go.uber.org/fx"
@@ -34,7 +36,7 @@ func Run(version healthfx.Version) {
 		goosefx.Module(),
 		// gormfx.Module(),
 		healthfx.Module(),
-		// openrouterfx.Module(),
+		openrouterfx.Module(),
 		// redisfx.Module(),
 		// sqlxfx.Module(),
 		telegofx.Module(true),
@@ -50,6 +52,7 @@ func Run(version healthfx.Version) {
 		// BUSINESS MODULES
 		fx.Supply(version),
 		example.Module(),
+		agent.Module(),
 		//
 		fx.Invoke(func(lc fx.Lifecycle, logger *zap.Logger) {
 			lc.Append(fx.Hook{

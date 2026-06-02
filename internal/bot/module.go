@@ -2,6 +2,7 @@ package bot
 
 import (
 	"github.com/capcom6/go-project-template/internal/bot/handler"
+	"github.com/capcom6/go-project-template/internal/bot/handlers/agent"
 	"github.com/capcom6/go-project-template/internal/bot/handlers/start"
 	"github.com/go-core-fx/logger"
 	"github.com/go-core-fx/telegofx"
@@ -22,6 +23,7 @@ func Module() fx.Option {
 		}),
 		fx.Provide(
 			fx.Annotate(start.New, fx.ResultTags(`group:"handlers"`)),
+			fx.Annotate(agent.New, fx.ResultTags(`group:"handlers"`)),
 		),
 		fx.Invoke(
 			fx.Annotate(

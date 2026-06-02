@@ -38,12 +38,21 @@ type exampleConfig struct {
 	Example string `koanf:"example"`
 }
 
+type agentConfig struct {
+	APIKey       string        `koanf:"api_key"`
+	Model        string        `koanf:"model"`
+	SystemPrompt string        `koanf:"system_prompt"`
+	PollInterval time.Duration `koanf:"poll_interval"`
+	BatchSize    int           `koanf:"batch_size"`
+}
+
 type Config struct {
 	HTTP     http           `koanf:"http"`
 	Telegram telegram       `koanf:"telegram"`
 	Database databaseConfig `koanf:"database"`
 
 	Example exampleConfig `koanf:"example"`
+	Agent   agentConfig   `koanf:"agent"`
 }
 
 func Default() Config {
@@ -72,6 +81,14 @@ func Default() Config {
 
 		Example: exampleConfig{
 			Example: "example",
+		},
+
+		Agent: agentConfig{
+			APIKey:       "",
+			Model:        "openai/gpt-4o-mini",
+			SystemPrompt: "You are a helpful AI assistant.",
+			PollInterval: 5 * time.Second,
+			BatchSize:    1,
 		},
 	}
 }

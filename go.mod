@@ -6,9 +6,11 @@ require (
 	github.com/go-core-fx/bunfx v0.1.0
 	github.com/go-core-fx/config v0.1.0
 	github.com/go-core-fx/fiberfx v0.5.0
+	github.com/go-core-fx/fxutil v0.0.2
 	github.com/go-core-fx/goosefx v0.0.1
 	github.com/go-core-fx/healthfx v0.1.0
 	github.com/go-core-fx/logger v0.0.1
+	github.com/go-core-fx/openrouterfx v0.0.1
 	github.com/go-core-fx/sqlfx v0.1.0
 	github.com/go-core-fx/telegofx v0.2.0
 	github.com/go-playground/validator/v10 v10.30.2
@@ -17,6 +19,7 @@ require (
 	github.com/mymmrac/telego v1.8.0
 	github.com/pressly/goose/v3 v3.27.1
 	github.com/prometheus/client_golang v1.23.2
+	github.com/revrost/go-openrouter v1.6.0
 	github.com/samber/lo v1.53.0
 	github.com/swaggo/swag v1.16.6
 	github.com/uptrace/bun v1.2.18
@@ -41,7 +44,6 @@ require (
 	github.com/cloudwego/base64x v0.1.7 // indirect
 	github.com/fsnotify/fsnotify v1.10.1 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.13 // indirect
-	github.com/go-core-fx/fxutil v0.0.2 // indirect
 	github.com/go-openapi/jsonpointer v0.23.1 // indirect
 	github.com/go-openapi/jsonreference v0.21.5 // indirect
 	github.com/go-openapi/spec v0.22.4 // indirect
