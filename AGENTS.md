@@ -13,7 +13,8 @@
 
 ## Architecture
 - **Entrypoint**: main.go — swag //go:generate directive; version injected via ldflags (appVersion, appBuildDate, appReleaseID)
-- **DI**: internal/app.go wires everything via uber/fx (fx.New().Run())
+- **CLI**: urfave/cli/v3 in internal/app.go — CLI shell with DefaultCommand "serve"; commands in internal/commands/{serve,example}/
+- **DI**: Fx graphs live in each command (internal/commands/serve/serve.go, internal/commands/example/example.go)
 - **Config**: go-core-fx/config — env vars + optional YAML via CONFIG_PATH env var
 - **HTTP**: Fiber at 127.0.0.1:3000, routes under /api/v1, validation middleware at group level
 - **Bot**: telego + telegofx (Telegram), proxy set via fasthttpproxy.FasthttpProxyHTTPDialer()
@@ -21,10 +22,10 @@
 - **Metrics**: Prometheus via fiberfx (auto), per-module counters via promauto
 
 ## Module Conventions
-- Each package exposes a Module() fx.Option
+- Each package exposes a Module(...) fx.Option (withRun bool for modules with background work)
 - Handlers registered via group tags: Provide(..., fx.ResultTags(`group:"handlers"`))
 - Internal-only deps use fx.Private
-- Services with Run(ctx) use fxutil.RegisterRunnable[*T]()
+- Services with Run(ctx) use `fxutil.RegisterRunnable[*T]()` — conditionally via `withRun` bool
 - Per-module named logger: logger.WithNamedLogger("name")
 - Config module maps raw Config struct to sub-configs for fiberfx, telegofx, sqlfx, openapi, example
 

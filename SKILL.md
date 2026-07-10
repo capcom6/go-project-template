@@ -40,10 +40,12 @@ Search-and-replace table:
 ## Remove (or Adapt) the Example Module
 
 Delete the `internal/example/` directory, then remove its wiring:
-1. `internal/app.go` — remove `example.Module()`
-2. `internal/config/module.go` — remove `example.Config` mapping
-3. `internal/server/module.go` — remove example handler provide + import
-4. `internal/server/docs/docs.go` — regenerate after deleting handler (`make gen`)
+1. `internal/commands/serve/serve.go` — remove `example.Module(true)`
+2. `internal/commands/example/example.go` — delete entire file
+3. `internal/commands/commands.go` — remove `example.Command(version)` from the list
+4. `internal/config/module.go` — remove `example.Config` mapping
+5. `internal/server/module.go` — remove example handler provide + import
+6. `internal/server/docs/docs.go` — regenerate after deleting handler (`make gen`)
 
 ## Module Scaffold
 
@@ -72,15 +74,17 @@ import (
     "go.uber.org/fx"
 )
 
-func Module() fx.Option {
-    return fx.Module(
-        "<name>",
+func Module(withRun bool) fx.Option {
+    opts := []fx.Option{
         logger.WithNamedLogger("<name>"),
         fx.Provide(NewMetrics, fx.Private),
         fx.Provide(NewRepository, fx.Private),
         fx.Provide(New),
-        fx.Invoke(fxutil.RegisterRunnable[*Service]()),
-    )
+    }
+    if withRun {
+        opts = append(opts, fx.Invoke(fxutil.RegisterRunnable[*Service]()))
+    }
+    return fx.Module("<name>", opts...)
 }
 ```
 
@@ -132,7 +136,7 @@ fx.Provide(
 
 After creating files, do all three:
 
-1. Add `<name>.Module()` to `internal/app.go`
+1. Add `<name>.Module(true)` to `internal/commands/serve/serve.go`
 2. Map `Config` → `<name>.Config` in `internal/config/module.go`
 3. Add handler provide (with `ResultTags`) to `server.Module()` or `bot.Module()`
 
@@ -141,6 +145,14 @@ After creating files, do all three:
 ```
 make deps
 make air       # live reload, requires `air` CLI: go install github.com/air-verse/air@latest
+```
+
+CLI usage:
+```
+make build && ./bin/go-project-template              # default = serve
+./bin/go-project-template serve                      # explicit serve
+./bin/go-project-template example                    # one-shot demo
+./bin/go-project-template --help                     # list commands
 ```
 
 MySQL/MariaDB required for DB features. Quick start:

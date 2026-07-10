@@ -55,7 +55,7 @@ This repository is a production-oriented starter for backend services in Go. It 
 * Version + health endpoints using `healthfx`.
 * Swagger/OpenAPI docs endpoint under `/api/v1/docs`.
 * Telegram bot integration (`/start` command handler included).
-* Modular business domain example to plug in real use-cases.
+* Modular business domain example with CLI commands (serve, one-shot tasks).
 
 Use this template when you want a fast path to shipping APIs and bot workflows with a clean module layout.
 
@@ -67,6 +67,7 @@ Use this template when you want a fast path to shipping APIs and bot workflows w
 * [![Go][go-shield]][go-url]
 * [![Fiber][fiber-shield]][fiber-url]
 * [![Fx][fx-shield]][fx-url]
+* [![CLI][cli-shield]][cli-url]
 * [![Swagger][swagger-shield]][swagger-url]
 * [![Telegram][telegram-shield]][telegram-url]
 
@@ -121,16 +122,25 @@ Follow these steps to run the service locally.
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Run the app:
+Run the server (default command):
 
 ```sh
 go run .
 ```
 
-Or use live reload:
+Or with live reload:
 
 ```sh
 make air
+```
+
+CLI commands:
+
+```sh
+go run . --help                     # list commands
+go run . serve                      # explicit serve
+go run . example                    # one-shot demo
+go run . --version                  # print version
 ```
 
 Default server address is `127.0.0.1:3000`.
@@ -246,6 +256,8 @@ Project Link: [https://github.com/capcom6/go-project-template](https://github.co
 [fiber-url]: https://github.com/gofiber/fiber
 [fx-shield]: https://img.shields.io/badge/Uber%20Fx-DI-6f42c1?style=for-the-badge
 [fx-url]: https://github.com/uber-go/fx
+[cli-shield]: https://img.shields.io/badge/urfave%2Fcli-v3-00b4d8?style=for-the-badge
+[cli-url]: https://github.com/urfave/cli
 [swagger-shield]: https://img.shields.io/badge/OpenAPI-Swagger-85EA2D?style=for-the-badge
 [swagger-url]: https://github.com/swaggo/swag
 [telegram-shield]: https://img.shields.io/badge/Telegram-Bot-26A5E4?style=for-the-badge&logo=telegram
