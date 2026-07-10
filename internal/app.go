@@ -2,66 +2,38 @@ package internal
 
 import (
 	"context"
+	"os"
+	"os/signal"
+	"syscall"
 
-	"github.com/capcom6/go-project-template/internal/bot"
-	"github.com/capcom6/go-project-template/internal/config"
-	"github.com/capcom6/go-project-template/internal/db"
-	"github.com/capcom6/go-project-template/internal/example"
-	"github.com/capcom6/go-project-template/internal/server"
-	"github.com/go-core-fx/bunfx"
-	"github.com/go-core-fx/fiberfx"
-	"github.com/go-core-fx/goosefx"
+	"github.com/capcom6/go-project-template/internal/commands"
 	"github.com/go-core-fx/healthfx"
-	"github.com/go-core-fx/logger"
-	"github.com/go-core-fx/sqlfx"
-	"github.com/go-core-fx/telegofx"
-	"go.uber.org/fx"
-	"go.uber.org/zap"
+	"github.com/samber/lo"
+	"github.com/urfave/cli/v3"
 )
 
 func Run(version healthfx.Version) {
-	fx.New(
-		// CORE MODULES
-		logger.Module(),
-		logger.WithFxDefaultLogger(),
-		// badgerfx.Module(),
-		bunfx.Module(),
-		// cachefx.Module(),
-		fiberfx.Module(),
-		// gocqlfx.Module(),
-		// gocqlxfx.Module(),
-		sqlfx.Module(),
-		goosefx.Module(),
-		// gormfx.Module(),
-		healthfx.Module(),
-		// openrouterfx.Module(),
-		// redisfx.Module(),
-		// sqlxfx.Module(),
-		telegofx.Module(true),
-		// validatorfx.Module(),
-		// watermillfx.Module(),
-		//
-		// APP MODULES
-		config.Module(),
-		db.Module(),
-		server.Module(),
-		bot.Module(),
-		//
-		// BUSINESS MODULES
-		fx.Supply(version),
-		example.Module(),
-		//
-		fx.Invoke(func(lc fx.Lifecycle, logger *zap.Logger) {
-			lc.Append(fx.Hook{
-				OnStart: func(_ context.Context) error {
-					logger.Info("app started")
-					return nil
-				},
-				OnStop: func(_ context.Context) error {
-					logger.Info("app stopped")
-					return nil
-				},
-			})
-		}),
-	).Run()
+	app := &cli.Command{
+		Name:           "go-project-template",
+		Usage:          "Example Go project with HTTP server and Telegram bot",
+		Description:    "Example Go project with HTTP server and Telegram bot",
+		Version:        version.Version,
+		DefaultCommand: "serve",
+		Flags:          []cli.Flag{},
+		Commands:       commands.Commands(version),
+	}
+
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+
+	if err := app.Run(ctx, os.Args); err != nil {
+		exitCode := 1
+		if exitErr, ok := lo.ErrorsAs[cli.ExitCoder](err); ok {
+			exitCode = exitErr.ExitCode()
+		}
+
+		stop()
+		os.Exit(exitCode)
+	}
+
+	stop()
 }

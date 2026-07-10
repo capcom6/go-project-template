@@ -24,7 +24,7 @@ import (
 // Usage:
 //
 //	app := fx.New(
-//	    example.Module(),
+//	    example.Module(true),
 //	    // other modules...
 //	)
 //
@@ -32,9 +32,8 @@ import (
 //	fx.Invoke(func(service *example.Service) {
 //	    // Use the service
 //	})
-func Module() fx.Option {
-	return fx.Module(
-		"example",
+func Module(withRun bool) fx.Option {
+	opts := []fx.Option{
 		// Add a named logger for this module
 		logger.WithNamedLogger("example"),
 
@@ -49,9 +48,14 @@ func Module() fx.Option {
 		// Provide the service as a public dependency
 		// This means it can be injected into other modules
 		fx.Provide(New),
+	}
 
-		// Register the service as a runnable
-		// This means it will be started and stopped automatically
-		fx.Invoke(fxutil.RegisterRunnable[*Service]()),
-	)
+	// Register the service as a runnable only when background work is needed.
+	// One-shot commands (e.g. example) should set withRun to false to avoid
+	// starting the long-running Run loop.
+	if withRun {
+		opts = append(opts, fx.Invoke(fxutil.RegisterRunnable[*Service]()))
+	}
+
+	return fx.Module("example", opts...)
 }
