@@ -16,6 +16,7 @@ import (
 	"github.com/go-core-fx/logger"
 	"github.com/go-core-fx/sqlfx"
 	"github.com/go-core-fx/telegofx"
+	"github.com/go-core-fx/validatorfx"
 	"github.com/urfave/cli/v3"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
@@ -43,15 +44,17 @@ func run(ctx context.Context, version healthfx.Version) error {
 		fiberfx.Module(),
 		// gocqlfx.Module(),
 		// gocqlxfx.Module(),
-		sqlfx.Module(),
 		goosefx.Module(),
 		// gormfx.Module(),
 		healthfx.Module(),
+		// httpfx.Module(),
+		// openaifx.Module(),
 		// openrouterfx.Module(),
 		// redisfx.Module(),
+		sqlfx.Module(),
 		// sqlxfx.Module(),
 		telegofx.Module(true),
-		// validatorfx.Module(),
+		validatorfx.Module(),
 		// watermillfx.Module(),
 		//
 		// APP MODULES
