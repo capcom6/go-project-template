@@ -1,5 +1,8 @@
 .PHONY: docker-build docker-up docker-down docker-logs docker-clean
 
+DOCKER_CR ?= $(shell basename $$(dirname $(PWD)))
+DOCKER_IMAGE := ${DOCKER_CR}/$(BINARY_NAME):$(VERSION)
+
 docker-build: ## Build Docker image
 	@echo "Building Docker image..."
 	@docker build -t $(DOCKER_IMAGE) .
