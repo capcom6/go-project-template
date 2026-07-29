@@ -3,8 +3,6 @@
 BINARY_NAME := $(shell basename $(PWD))
 GIT_VERSION := $(shell git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0")
 VERSION ?= $(GIT_VERSION)
-DOCKER_CR ?= $(shell basename $$(dirname $(PWD)))
-DOCKER_IMAGE := ${DOCKER_CR}/$(BINARY_NAME):$(VERSION)
 
 all: fmt lint coverage ## Run all tests and checks
 
