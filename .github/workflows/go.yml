@@ -108,6 +108,7 @@ jobs:
       # step 5: run benchmark
       - name: Run benchmarks
         run: go test -run=^$ -bench=. -benchmem ./... | tee benchmark.txt
+        shell: bash
 
       # step 6: detect whether the run produced any benchmark at all
       - name: Check for benchmark results
