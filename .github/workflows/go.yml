@@ -12,6 +12,7 @@ on:
       - "go.mod"
       - "go.sum"
       - ".golangci.yml"
+      - ".github/workflows/**"
   pull_request:
     branches: [master]
     paths:
@@ -19,6 +20,7 @@ on:
       - "go.mod"
       - "go.sum"
       - ".golangci.yml"
+      - ".github/workflows/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
