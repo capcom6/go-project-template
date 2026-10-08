@@ -86,7 +86,7 @@ Follow these steps to run the service locally.
   ```sh
   go version
   ```
-* `golangci-lint` (optional but recommended)
+* `golangci-lint` v2.14.0 or later (optional but recommended)
   ```sh
   golangci-lint version
   ```

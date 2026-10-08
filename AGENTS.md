@@ -35,7 +35,7 @@
 - Live reload config: .air.toml
 
 ## Linting & CI
-- golangci-lint v2, ~70 linters (exhaustruct, cyclop, gochecknoglobals, etc.)
+- golangci-lint v2.14.0 or later, ~70 linters (exhaustruct, cyclop, gochecknoglobals, etc.)
 - golines max length: 120
 - Format + lint + test + coverage in that order
 - CI: lint + test on push/PR to master in .github/workflows/go.yml
