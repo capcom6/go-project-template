@@ -231,7 +231,7 @@ linters:
       # Default: [ switch ]
       check:
         - switch
-        - map
+        - mapliteral
 
     exhaustruct_v5:
       # List of regular expressions to match type names that should be skipped from checking.
@@ -262,9 +262,11 @@ linters:
         - ^github.com/go-telegram-bot-api/telegram-bot-api/.+Config$
         - ^github.com/go-telegram/bot.+Params$
         - ^github.com/go-telegram/bot/models.+$
+        - ^github.com/go-webauthn/webauthn/webauthn.+(Config|Credential)$
         - ^github.com/gofiber/.+Config$
         - ^github.com/golang-jwt/jwt/v5.+Claims$
         - ^github.com/invopop/jsonschema.Reflector$
+        - ^github.com/minio/minio-go/.+Options$
         - ^github.com/mitchellh/mapstructure.DecoderConfig$
         - ^github.com/mymmrac/telego.+$
         - ^github.com/openai/openai-go/v3/shared\.ResponseFormatJSONSchemaJSONSchemaParam$
@@ -282,6 +284,7 @@ linters:
         - ^github.com/testcontainers/testcontainers-go.+Request$
         - ^github.com/testcontainers/testcontainers-go.FromDockerfile$
         - ^github.com/ThreeDotsLabs/watermill.+(Config|Schema|Adapter)$
+        - ^github.com/urfave/cli.v3.+Flag$
         - ^github.com/urfave/cli.v3.ArgumentBase$
         - ^github.com/urfave/cli.v3.Command$
         - ^github.com/urfave/cli.v3.FlagBase$
@@ -469,7 +472,9 @@ linters:
 
     wrapcheck:
       extra-ignore-sigs:
+        - .Exit(
         - .JSON(
+        - .NewError(
         - .Next(
         - .Send(
         - .SendStatus(
@@ -506,8 +511,9 @@ linters:
           - dupl
           - err113
           - errcheck
-          - exhaustruct
+          - exhaustruct_v5
           - funlen
+          - gochecknoglobals
           - gocognit
           - goconst
           - gosec
