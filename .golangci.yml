@@ -243,6 +243,7 @@ linters:
       # Default: []
       ignore-patterns:
         # std libs
+        - ^crypto/tls.Config$
         - ^net.ListenConfig$
         - ^net/http.Client$
         - ^net/http.Cookie$
@@ -288,6 +289,7 @@ linters:
         - ^github.com/urfave/cli.v3.ArgumentBase$
         - ^github.com/urfave/cli.v3.Command$
         - ^github.com/urfave/cli.v3.FlagBase$
+        - ^github.com/urfave/cli.v3.+Flag$
         - ^github.com/valyala/fasthttp.Client$
         - ^golang.org/x/tools/go/analysis.Analyzer$
         - ^google.golang.org/protobuf/.+Options$
