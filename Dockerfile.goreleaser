@@ -18,5 +18,12 @@ COPY --chown=appuser:appuser $TARGETPLATFORM/$BINARY_NAME ./server
 
 USER appuser
 
+# Expose the HTTP port (must match config HTTP.Address)
+EXPOSE 3000
+
+# Health check against the liveness probe
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+    CMD wget -q --spider -T 3 http://127.0.0.1:3000/health/live || exit 1
+
 # Command to run the executable
 ENTRYPOINT ["/app/server"]
