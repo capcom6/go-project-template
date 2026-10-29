@@ -157,7 +157,15 @@ Configuration:
   ```sh
   export CONFIG_PATH=./config.local.yaml
   ```
-* Telegram token is configured via the app config (`telegram.token`) and required to use bot handlers.
+* Telegram is configured via the app config: `telegram.token` is required to use bot handlers, `telegram.proxy_url` (SOCKS5) routes API traffic, `telegram.timeout` bounds each request, and `telegram.mode` selects polling (default) or webhook.
+* The app-wide default HTTP client is configured via `http_client` (`proxy_url`, `bypass`, `timeout`, `max_idle_conns`, `max_idle_conns_per_host`, `idle_conn_timeout`, `tls.*`); unset/zero values inherit the standard library defaults. The bot's own `telegram.proxy_url`/`telegram.timeout` always override it for bot API traffic, so only the idle-pool and TLS settings are shared with the bot client.
+* Webhook mode: `POST /api/v1/webhook` is mounted in every mode and answers 500 while no webhook handler is ready (polling). Register the endpoint with the Bot API once — this template ships no CLI helper for it:
+  ```sh
+  curl -X POST "https://api.telegram.org/bot<TOKEN>/setWebhook" -H 'Content-Type: application/json' -d '{"url":"https://<public-host>/api/v1/webhook","allowed_updates":["message"]}'
+  ```
+  Call the Bot API `deleteWebhook` before switching back to polling.
+
+> **Webhook security.** The webhook route performs **no request authentication**: the `X-Telegram-Bot-Api-Secret-Token` check is not implemented. A caller that reaches the route can submit forged updates. Keep the HTTP server behind a reverse proxy that only forwards Telegram traffic, and prefer the default polling mode.
 
 Quality checks:
 
@@ -178,6 +186,7 @@ make coverage
 - [x] Fiber API scaffold
 - [x] OpenAPI + Swagger integration
 - [x] Telegram bot wiring
+- [ ] Telegram webhook secret token validation
 - [ ] Database module integration
 - [ ] Auth middleware and RBAC
 - [ ] CI release pipeline hardening

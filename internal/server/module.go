@@ -3,6 +3,7 @@ package server
 import (
 	"github.com/capcom6/go-project-template/internal/server/docs"
 	"github.com/capcom6/go-project-template/internal/server/handlers/example"
+	"github.com/capcom6/go-project-template/internal/server/handlers/webhook"
 	"github.com/go-core-fx/fiberfx"
 	"github.com/go-core-fx/fiberfx/handler"
 	"github.com/go-core-fx/fiberfx/health"
@@ -35,6 +36,7 @@ func Module() fx.Option {
 
 		fx.Provide(
 			fx.Annotate(example.New, fx.ResultTags(`group:"handlers"`)),
+			fx.Annotate(webhook.New, fx.ResultTags(`group:"handlers"`)),
 			fx.Private,
 		),
 
