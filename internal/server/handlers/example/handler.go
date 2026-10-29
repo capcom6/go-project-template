@@ -5,7 +5,7 @@ import (
 	"github.com/go-core-fx/fiberfx/handler"
 	"github.com/go-core-fx/fiberfx/validation"
 	"github.com/go-playground/validator/v10"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 // Handler exposes example endpoints over HTTP.
@@ -42,7 +42,7 @@ func (h *Handler) Register(r fiber.Router) {
 //	@Router			/example [get]
 //
 // Get example.
-func (h *Handler) get(c *fiber.Ctx) error {
+func (h *Handler) get(c fiber.Ctx) error {
 	return c.JSON(Response{
 		Message: "example handler is working",
 		Value:   h.exampleSvc.Example(),
@@ -61,7 +61,7 @@ func (h *Handler) get(c *fiber.Ctx) error {
 //	@Router			/example [post]
 //
 // Create example.
-func (h *Handler) post(c *fiber.Ctx, req *Request) error {
+func (h *Handler) post(c fiber.Ctx, req *Request) error {
 	return c.JSON(Response{
 		Message: "example handler is working",
 		Value:   req.Value + " / " + h.exampleSvc.Example(),

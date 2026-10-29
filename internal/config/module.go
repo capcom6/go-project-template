@@ -2,8 +2,10 @@ package config
 
 import (
 	"github.com/capcom6/go-project-template/internal/example"
+	"github.com/capcom6/go-project-template/internal/telegram"
 	"github.com/go-core-fx/fiberfx"
 	"github.com/go-core-fx/fiberfx/openapi"
+	"github.com/go-core-fx/httpfx"
 	"github.com/go-core-fx/sqlfx"
 	"github.com/go-core-fx/telegofx"
 	"go.uber.org/fx"
@@ -28,9 +30,31 @@ func Module() fx.Option {
 					PublicPath: cfg.HTTP.OpenAPI.PublicPath,
 				}
 			},
+			func(cfg Config) telegram.Config {
+				return telegram.Config{
+					ProxyURL: cfg.Telegram.ProxyURL,
+					Timeout:  cfg.Telegram.Timeout,
+				}
+			},
 			func(cfg Config) telegofx.Config {
 				return telegofx.Config{
 					Token: cfg.Telegram.Token,
+					Mode:  cfg.Telegram.Mode,
+				}
+			},
+			func(cfg Config) httpfx.Config {
+				return httpfx.Config{
+					ProxyURL:            cfg.HTTPClient.ProxyURL,
+					Bypass:              cfg.HTTPClient.Bypass,
+					Timeout:             cfg.HTTPClient.Timeout,
+					MaxIdleConns:        cfg.HTTPClient.MaxIdleConns,
+					MaxIdleConnsPerHost: cfg.HTTPClient.MaxIdleConnsPerHost,
+					IdleConnTimeout:     cfg.HTTPClient.IdleConnTimeout,
+					TLS: httpfx.TLSConfig{
+						RootCAFile:          cfg.HTTPClient.TLS.RootCAFile,
+						RootCAPEM:           cfg.HTTPClient.TLS.RootCAPEM,
+						RootCAReplaceSystem: cfg.HTTPClient.TLS.RootCAReplaceSystem,
+					},
 				}
 			},
 			func(cfg Config) sqlfx.Config {
