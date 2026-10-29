@@ -157,7 +157,7 @@ Configuration:
   ```sh
   export CONFIG_PATH=./config.local.yaml
   ```
-* Telegram token is configured via the app config (`telegram.token`) and required to use bot handlers.
+* Telegram is configured via the app config: `telegram.token` is required to use bot handlers, `telegram.proxy_url` (SOCKS5) routes API traffic, `telegram.timeout` bounds each request, and `telegram.mode` selects polling (default) or webhook.
 
 Quality checks:
 

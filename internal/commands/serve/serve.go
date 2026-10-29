@@ -9,10 +9,12 @@ import (
 	"github.com/capcom6/go-project-template/internal/db"
 	"github.com/capcom6/go-project-template/internal/example"
 	"github.com/capcom6/go-project-template/internal/server"
+	"github.com/capcom6/go-project-template/internal/telegram"
 	"github.com/go-core-fx/bunfx"
 	"github.com/go-core-fx/fiberfx"
 	"github.com/go-core-fx/goosefx"
 	"github.com/go-core-fx/healthfx"
+	"github.com/go-core-fx/httpfx"
 	"github.com/go-core-fx/logger"
 	"github.com/go-core-fx/sqlfx"
 	"github.com/go-core-fx/telegofx"
@@ -47,24 +49,25 @@ func run(ctx context.Context, version healthfx.Version) error {
 		goosefx.Module(),
 		// gormfx.Module(),
 		healthfx.Module(),
-		// httpfx.Module(),
+		httpfx.Module(),
 		// openaifx.Module(),
 		// openrouterfx.Module(),
 		// redisfx.Module(),
 		sqlfx.Module(),
 		// sqlxfx.Module(),
-		telegofx.Module(true),
+		telegofx.Module(telegofx.WithRouter()),
 		validatorfx.Module(),
 		// watermillfx.Module(),
 		//
 		// APP MODULES
 		config.Module(),
+		telegram.Module(),
 		db.Module(),
 		server.Module(),
-		bot.Module(),
 		//
 		// BUSINESS MODULES
 		fx.Supply(version),
+		bot.Module(),
 		example.Module(true),
 
 		fx.Invoke(func(lc fx.Lifecycle, logger *zap.Logger) {

@@ -2,6 +2,7 @@ package config
 
 import (
 	"github.com/capcom6/go-project-template/internal/example"
+	"github.com/capcom6/go-project-template/internal/telegram"
 	"github.com/go-core-fx/fiberfx"
 	"github.com/go-core-fx/fiberfx/openapi"
 	"github.com/go-core-fx/sqlfx"
@@ -28,9 +29,16 @@ func Module() fx.Option {
 					PublicPath: cfg.HTTP.OpenAPI.PublicPath,
 				}
 			},
+			func(cfg Config) telegram.Config {
+				return telegram.Config{
+					ProxyURL: cfg.Telegram.ProxyURL,
+					Timeout:  cfg.Telegram.Timeout,
+				}
+			},
 			func(cfg Config) telegofx.Config {
 				return telegofx.Config{
 					Token: cfg.Telegram.Token,
+					Mode:  cfg.Telegram.Mode,
 				}
 			},
 			func(cfg Config) sqlfx.Config {

@@ -169,7 +169,7 @@ export CONFIG_PATH=./config.local.yaml
 make air
 ```
 
-Telegram bot token required for bot features. Set via `telegram.token` in config.
+Telegram bot token required for bot features. Set via `telegram.token` in config; `telegram.proxy_url` (SOCKS5), `telegram.timeout`, and `telegram.mode` configure the transport.
 
 ## Common Gotchas
 
