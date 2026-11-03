@@ -17,7 +17,14 @@ jobs:
       # step 2: remove specific labels
       - name: Remove specific labels
         run: |
-          gh pr edit ${{ github.event.pull_request.number }} --remove-label "ready" || true
-          gh pr edit ${{ github.event.pull_request.number }} --remove-label "deployed" || true
+          pr_number="${{ github.event.pull_request.number }}"
+          labels=$(gh pr view "$pr_number" --json labels --jq '.labels[].name')
+          status=0
+          for label in ready deployed; do
+            if grep -qxF "$label" <<<"$labels"; then
+              gh pr edit "$pr_number" --remove-label "$label" || status=1
+            fi
+          done
+          exit "$status"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
