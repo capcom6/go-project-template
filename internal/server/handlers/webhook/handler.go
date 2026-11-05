@@ -5,7 +5,7 @@ import (
 
 	"github.com/go-core-fx/fiberfx/handler"
 	"github.com/go-core-fx/telegofx"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"go.uber.org/zap"
 )
 
@@ -47,7 +47,7 @@ func (h *Handler) Register(r fiber.Router) {
 // context is detached (telego webhook guidance). Every feeder failure answers
 // 500, including telegofx ErrHandlerNotReady while the bot runs in polling
 // mode or after it has stopped.
-func (h *Handler) handle(c *fiber.Ctx) error {
+func (h *Handler) handle(c fiber.Ctx) error {
 	if err := h.feeder(context.WithoutCancel(c.Context()), c.Body()); err != nil {
 		h.logger.Warn("webhook update decode failed", zap.Error(err))
 		return c.Status(fiber.StatusInternalServerError).JSON(ErrorResponse{Error: "failed to decode update"})
