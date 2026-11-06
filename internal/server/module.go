@@ -3,13 +3,14 @@ package server
 import (
 	"github.com/capcom6/go-project-template/internal/server/docs"
 	"github.com/capcom6/go-project-template/internal/server/handlers/example"
+	"github.com/capcom6/go-project-template/internal/server/handlers/webhook"
 	"github.com/go-core-fx/fiberfx"
 	"github.com/go-core-fx/fiberfx/handler"
 	"github.com/go-core-fx/fiberfx/health"
 	"github.com/go-core-fx/fiberfx/openapi"
 	"github.com/go-core-fx/fiberfx/validation"
 	"github.com/go-core-fx/logger"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
 )
@@ -21,7 +22,9 @@ func Module() fx.Option {
 
 		fx.Provide(func(log *zap.Logger) fiberfx.Options {
 			opts := fiberfx.Options{}
-			opts.WithErrorHandler(fiberfx.NewJSONErrorHandler(log))
+			opts.WithFiberConfig(func(cfg *fiber.Config) {
+				cfg.ErrorHandler = fiberfx.NewJSONErrorHandler(log)
+			})
 			opts.WithMetrics()
 			return opts
 		}),
@@ -35,6 +38,7 @@ func Module() fx.Option {
 
 		fx.Provide(
 			fx.Annotate(example.New, fx.ResultTags(`group:"handlers"`)),
+			fx.Annotate(webhook.New, fx.ResultTags(`group:"handlers"`)),
 			fx.Private,
 		),
 

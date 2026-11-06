@@ -92,6 +92,46 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/webhook": {
+            "post": {
+                "description": "Accepts a raw Telegram webhook update and pushes it into the ingestion pipeline. Polled updates are not sent here, so the route answers 500 while the bot runs in polling mode. The route performs no request authentication.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "webhook"
+                ],
+                "summary": "Handle Telegram update",
+                "parameters": [
+                    {
+                        "description": "Telegram update",
+                        "name": "update",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/webhook.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/webhook.ErrorResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -126,6 +166,22 @@ const docTemplate = `{
                 "details": {},
                 "message": {
                     "type": "string"
+                }
+            }
+        },
+        "webhook.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "webhook.Response": {
+            "type": "object",
+            "properties": {
+                "ok": {
+                    "type": "boolean"
                 }
             }
         }
