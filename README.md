@@ -82,7 +82,7 @@ Follow these steps to run the service locally.
 
 ### Prerequisites
 
-* Go 1.25+
+* Go 1.26.7+
   ```sh
   go version
   ```
