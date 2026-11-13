@@ -45,7 +45,7 @@ func (h *Handler) Register(r fiber.Router) {
 func (h *Handler) get(c fiber.Ctx) error {
 	return c.JSON(Response{
 		Message: "example handler is working",
-		Value:   h.exampleSvc.Example(),
+		Value:   h.exampleSvc.Example(c.Context()),
 	})
 }
 
@@ -64,6 +64,6 @@ func (h *Handler) get(c fiber.Ctx) error {
 func (h *Handler) post(c fiber.Ctx, req *Request) error {
 	return c.JSON(Response{
 		Message: "example handler is working",
-		Value:   req.Value + " / " + h.exampleSvc.Example(),
+		Value:   req.Value + " / " + h.exampleSvc.Example(c.Context()),
 	})
 }

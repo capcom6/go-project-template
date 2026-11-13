@@ -54,6 +54,11 @@ type databaseConfig struct {
 	MaxIdleConns    int           `koanf:"max_idle_conns"`
 }
 
+type cacheConfig struct {
+	URL           string        `koanf:"url"`
+	SweepInterval time.Duration `koanf:"sweep_interval"`
+}
+
 type exampleConfig struct {
 	Example string `koanf:"example"`
 }
@@ -63,6 +68,7 @@ type Config struct {
 	HTTPClient httpClientConfig `koanf:"http_client"`
 	Telegram   telegramConfig   `koanf:"telegram"`
 	Database   databaseConfig   `koanf:"database"`
+	Cache      cacheConfig      `koanf:"cache"`
 
 	Example exampleConfig `koanf:"example"`
 }
@@ -105,6 +111,11 @@ func Default() Config {
 			ConnMaxLifetime: 0,
 			MaxOpenConns:    0,
 			MaxIdleConns:    0,
+		},
+
+		Cache: cacheConfig{
+			URL:           "memory://",
+			SweepInterval: time.Minute,
 		},
 
 		Example: exampleConfig{
