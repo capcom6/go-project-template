@@ -1,6 +1,8 @@
 package example
 
 import (
+	appcache "github.com/capcom6/go-project-template/internal/cache"
+	"github.com/go-core-fx/cachefx/cache"
 	"github.com/go-core-fx/fxutil"
 	"github.com/go-core-fx/logger"
 	"go.uber.org/fx"
@@ -15,6 +17,8 @@ import (
 // The module includes:
 //   - A named logger for structured logging
 //   - A repository for data access (provided privately)
+//   - A cache created through the app-scoped factory (provided privately;
+//     the cachefx sweeper reclaims expired entries)
 //   - A service for business logic (provided publicly)
 //
 // FX will automatically resolve dependencies and inject them where needed.
@@ -44,6 +48,16 @@ func Module(withRun bool) fx.Option {
 		// Provide the repository as a private dependency
 		// This means it can only be used within this module
 		fx.Provide(NewRepository, fx.Private),
+
+		// Provide the module's cache through the app-scoped factory (private),
+		// so the cachefx sweeper reclaims expired entries
+		fx.Provide(
+			func(factory appcache.Factory) (cache.Cache, error) {
+				return factory.New("example")
+			},
+			NewStorage,
+			fx.Private,
+		),
 
 		// Provide the service as a public dependency
 		// This means it can be injected into other modules

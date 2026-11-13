@@ -2,7 +2,9 @@ package example
 
 import (
 	"context"
+	"errors"
 
+	"github.com/go-core-fx/cachefx/cache"
 	"go.uber.org/zap"
 )
 
@@ -16,6 +18,7 @@ import (
 // The Service depends on:
 //   - Config: For configuration parameters
 //   - Repository: For data access operations
+//   - Storage: For caching the example value
 //   - Metrics: For collecting and reporting metrics
 //   - Logger: For structured logging
 //
@@ -30,6 +33,9 @@ type Service struct {
 
 	// examples provides access to data operations
 	examples *Repository
+
+	// storage caches the example value (cache-aside)
+	storage *Storage
 
 	// metrics is used for collecting and reporting metrics
 	metrics *Metrics
@@ -47,6 +53,7 @@ type Service struct {
 // Parameters:
 //   - config: Configuration for the service
 //   - examples: Repository for data access
+//   - storage: Cache storage for the example value
 //   - metrics: Metrics collector for monitoring
 //   - logger: Logger for structured logging
 //
@@ -57,14 +64,16 @@ type Service struct {
 //
 //	config := example.Config{Example: "demo"}
 //	repo := example.NewRepository()
+//	storage := example.NewStorage(cache.NewMemory(time.Hour))
 //	metrics := example.NewMetrics()
 //	logger, _ := zap.NewProduction()
 //
-//	service := example.New(config, repo, metrics, logger)
-func New(config Config, examples *Repository, metrics *Metrics, logger *zap.Logger) *Service {
+//	service := example.New(config, repo, storage, metrics, logger)
+func New(config Config, examples *Repository, storage *Storage, metrics *Metrics, logger *zap.Logger) *Service {
 	return &Service{
 		config:   config,
 		examples: examples,
+		storage:  storage,
 		metrics:  metrics,
 		logger:   logger,
 	}
@@ -82,7 +91,26 @@ func (s *Service) Run(ctx context.Context) error {
 	return nil
 }
 
-// Example returns the example value from the configuration.
-func (s *Service) Example() string {
-	return s.config.Example
+// Example returns the example value, serving it from the module cache when
+// possible (cache-aside): a miss computes the value from config and populates
+// the cache; cache failures are logged and never fail the call.
+func (s *Service) Example(ctx context.Context) string {
+	value, err := s.storage.Get(ctx)
+	switch {
+	case err == nil:
+		s.logger.Debug("example value served from cache")
+
+		return value
+	case errors.Is(err, cache.ErrKeyNotFound):
+		s.logger.Debug("example value cache miss")
+	default:
+		s.logger.Warn("failed to read example value from cache", zap.Error(err))
+	}
+
+	value = s.config.Example
+	if err = s.storage.Set(ctx, value); err != nil {
+		s.logger.Warn("failed to write example value to cache", zap.Error(err))
+	}
+
+	return value
 }

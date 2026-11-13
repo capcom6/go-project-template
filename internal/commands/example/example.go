@@ -78,7 +78,7 @@ func run(ctx context.Context) error {
 		}
 	}()
 
-	fmt.Fprintf(os.Stdout, "example value: %s\n", svc.Example())
+	fmt.Fprintf(os.Stdout, "example value: %s\n", svc.Example(ctx))
 
 	return nil
 }
