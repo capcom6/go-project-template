@@ -3,6 +3,7 @@ package config
 import (
 	"github.com/capcom6/go-project-template/internal/example"
 	"github.com/capcom6/go-project-template/internal/telegram"
+	"github.com/go-core-fx/cachefx"
 	"github.com/go-core-fx/fiberfx"
 	"github.com/go-core-fx/fiberfx/openapi"
 	"github.com/go-core-fx/httpfx"
@@ -64,6 +65,12 @@ func Module() fx.Option {
 					ConnMaxLifetime: cfg.Database.ConnMaxLifetime,
 					MaxOpenConns:    cfg.Database.MaxOpenConns,
 					MaxIdleConns:    cfg.Database.MaxIdleConns,
+				}
+			},
+			func(cfg Config) cachefx.Config {
+				return cachefx.Config{
+					URL:           cfg.Cache.URL,
+					SweepInterval: cfg.Cache.SweepInterval,
 				}
 			},
 		),

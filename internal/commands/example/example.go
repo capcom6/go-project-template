@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/capcom6/go-project-template/internal/cache"
 	"github.com/capcom6/go-project-template/internal/config"
 	"github.com/capcom6/go-project-template/internal/example"
+	"github.com/go-core-fx/cachefx"
 	"github.com/go-core-fx/healthfx"
 	"github.com/go-core-fx/logger"
 	"github.com/urfave/cli/v3"
@@ -37,7 +39,7 @@ func run(ctx context.Context) error {
 		logger.WithFxDefaultLogger(),
 		// badgerfx.Module(),
 		// bunfx.Module(),
-		// cachefx.Module(),
+		cachefx.Module(cachefx.WithSweeper()),
 		// fiberfx.Module(),
 		// gocqlfx.Module(),
 		// gocqlxfx.Module(),
@@ -54,6 +56,7 @@ func run(ctx context.Context) error {
 		//
 		// APP MODULES
 		config.Module(),
+		cache.Module(),
 		//
 		// BUSINESS MODULES
 		example.Module(false),
@@ -75,7 +78,7 @@ func run(ctx context.Context) error {
 		}
 	}()
 
-	fmt.Fprintf(os.Stdout, "example value: %s\n", svc.Example())
+	fmt.Fprintf(os.Stdout, "example value: %s\n", svc.Example(ctx))
 
 	return nil
 }

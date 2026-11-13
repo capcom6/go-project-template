@@ -5,12 +5,14 @@ import (
 	"fmt"
 
 	"github.com/capcom6/go-project-template/internal/bot"
+	"github.com/capcom6/go-project-template/internal/cache"
 	"github.com/capcom6/go-project-template/internal/config"
 	"github.com/capcom6/go-project-template/internal/db"
 	"github.com/capcom6/go-project-template/internal/example"
 	"github.com/capcom6/go-project-template/internal/server"
 	"github.com/capcom6/go-project-template/internal/telegram"
 	"github.com/go-core-fx/bunfx"
+	"github.com/go-core-fx/cachefx"
 	"github.com/go-core-fx/fiberfx"
 	"github.com/go-core-fx/goosefx"
 	"github.com/go-core-fx/healthfx"
@@ -42,7 +44,7 @@ func run(ctx context.Context, version healthfx.Version) error {
 		logger.WithFxDefaultLogger(),
 		// badgerfx.Module(),
 		bunfx.Module(),
-		// cachefx.Module(),
+		cachefx.Module(cachefx.WithSweeper()),
 		fiberfx.Module(),
 		// gocqlfx.Module(),
 		// gocqlxfx.Module(),
@@ -61,6 +63,7 @@ func run(ctx context.Context, version healthfx.Version) error {
 		//
 		// APP MODULES
 		config.Module(),
+		cache.Module(),
 		telegram.Module(),
 		db.Module(),
 		server.Module(),
