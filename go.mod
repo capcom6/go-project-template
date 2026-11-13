@@ -4,6 +4,7 @@ go 1.26.7
 
 require (
 	github.com/go-core-fx/bunfx v0.1.0
+	github.com/go-core-fx/cachefx v0.2.0
 	github.com/go-core-fx/config v0.1.0
 	github.com/go-core-fx/fiberfx v1.0.0
 	github.com/go-core-fx/fxutil v0.0.2
@@ -39,6 +40,7 @@ require (
 	github.com/bytedance/sonic/loader v0.5.3 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/cloudwego/base64x v0.1.7 // indirect
+	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/fsnotify/fsnotify v1.10.1 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.16 // indirect
 	github.com/go-openapi/jsonpointer v1.0.2 // indirect
@@ -85,6 +87,7 @@ require (
 	github.com/prometheus/common v0.73.1 // indirect
 	github.com/prometheus/procfs v0.23.0 // indirect
 	github.com/puzpuzpuz/xsync/v3 v3.5.1 // indirect
+	github.com/redis/go-redis/v9 v9.17.2 // indirect
 	github.com/sethvargo/go-retry v0.5.0 // indirect
 	github.com/swaggo/files/v2 v2.0.2 // indirect
 	github.com/tinylib/msgp v1.6.5 // indirect
