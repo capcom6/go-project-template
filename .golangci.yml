@@ -244,6 +244,7 @@ linters:
       ignore-patterns:
         # std libs
         - ^crypto/tls.Config$
+        - ^crypto/x509.Certificate$
         - ^net.ListenConfig$
         - ^net/http.Client$
         - ^net/http.Cookie$
